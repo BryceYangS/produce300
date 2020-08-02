@@ -1,14 +1,8 @@
 package com.kge.produce300.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Getter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@Getter
 public class Properties {
 
     private String sggCode;

@@ -1,20 +1,17 @@
 package com.kge.produce300.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
-@Data
+
 @Document(collection = "hjd")
 @ToString(exclude = "_id")
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
 public class AdministrativeDong {
 
-    @Id
+    @MongoId
     private String _id;
     private String type;
     private Geometry geometry;
