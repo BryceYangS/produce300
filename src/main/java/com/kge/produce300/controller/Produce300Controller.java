@@ -2,8 +2,6 @@ package com.kge.produce300.controller;
 
 import com.google.gson.JsonObject;
 import com.kge.produce300.domain.dto.CandidateDTO;
-import com.kge.produce300.domain.entity.AdministrativeDong;
-import com.kge.produce300.domain.entity.Elected;
 import com.kge.produce300.service.Produce300Service;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -24,34 +22,11 @@ public class Produce300Controller {
     @Resource(name = "produce300Service")
     private Produce300Service produce300Service;
 
+
     @ApiOperation(value = "기본 데이터", httpMethod = "GET", notes = "행정동,당선인 데이터")
     @GetMapping("/api/data")
     public ResponseEntity<Object> getData() throws Exception {
-        Map<String, Object> result = new HashMap<>();
-
-        //20대 선거구별 행정동 geojson
-        Map<String, Object> geoJson20 = new HashMap<>();
-        List<AdministrativeDong> hjd20 = produce300Service.retrieveAdministrativeDongs("20160413");
-        geoJson20.put("type", "FeatureCollection");
-        geoJson20.put("features", hjd20);
-        result.put("geoJson20", geoJson20);
-
-        //21대 선거구별 행정동 geojson
-        List<AdministrativeDong> hjd21 = produce300Service.retrieveAdministrativeDongs("20200415");
-        Map<String, Object> geoJson21 = new HashMap<>();
-        geoJson21.put("type", "FeatureCollection");
-        geoJson21.put("features", hjd21);
-        result.put("geoJson21", geoJson21);
-        
-        //20대 당선인
-        List<Elected> elected20 = produce300Service.retrieveElectedResult("20160413");
-        result.put("elected20", elected20);
-
-        //21대 당선인
-        List<Elected> elected21 = produce300Service.retrieveElectedResult("20200415");
-        result.put("elected21", elected21);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(produce300Service.retrieveBaseData(), HttpStatus.OK);
     }
 
 

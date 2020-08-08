@@ -3,9 +3,11 @@ package com.kge.produce300.domain.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
 @Builder
-public class CandidateDTO {
+public class CandidateDTO implements Serializable {
 
     private String name;
     private String party;

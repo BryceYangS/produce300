@@ -12,10 +12,13 @@ import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -27,6 +30,35 @@ public class Produce300ServiceImpl implements Produce300Service {
     private final ElectedRepository ELECTED_REPO;
     private final CandidateRepository CANDIDATE_REPO;
 
+    @Cacheable(value ="base-data", key = "'data'")
+    @Override
+    public Map<String, Object> retrieveBaseData() throws Exception {
+        Map<String, Object> result = new HashMap<>();
+
+        //20대 선거구별 행정동 geojson
+        Map<String, Object> geoJson20 = new HashMap<>();
+        List<AdministrativeDong> hjd20 = retrieveAdministrativeDongs("20160413");
+        geoJson20.put("type", "FeatureCollection");
+        geoJson20.put("features", hjd20);
+        result.put("geoJson20", geoJson20);
+
+        //21대 선거구별 행정동 geojson
+        List<AdministrativeDong> hjd21 = retrieveAdministrativeDongs("20200415");
+        Map<String, Object> geoJson21 = new HashMap<>();
+        geoJson21.put("type", "FeatureCollection");
+        geoJson21.put("features", hjd21);
+        result.put("geoJson21", geoJson21);
+
+        //20대 당선인
+        List<Elected> elected20 = retrieveElectedResult("20160413");
+        result.put("elected20", elected20);
+
+        //21대 당선인
+        List<Elected> elected21 = retrieveElectedResult("20200415");
+        result.put("elected21", elected21);
+        return result;
+    }
+
     @Override
     public List<AdministrativeDong> retrieveAdministrativeDongs(String electionCode) throws Exception {
         return ADMIN_DONG_REPO.findByPropertiesElectionCode(electionCode);
@@ -37,6 +69,7 @@ public class Produce300ServiceImpl implements Produce300Service {
         return ELECTED_REPO.findByElectionCode(electionCode);
     }
 
+    @Cacheable(value = "candidates", key = "#sggCode")
     @Override
     public List<CandidateDTO> retrieveCandidates(String sggCode) throws Exception {
         List<CandidateDTO> candidatesWithVoteRate = new ArrayList<>();

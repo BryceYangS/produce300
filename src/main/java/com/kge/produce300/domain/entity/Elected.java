@@ -6,10 +6,12 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.io.Serializable;
+
 @Document(collection = "elected")
 @ToString(exclude = "_id")
 @Getter
-public class Elected {
+public class Elected implements Serializable {
 
     @MongoId
     private String _id;

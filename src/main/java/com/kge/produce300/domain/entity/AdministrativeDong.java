@@ -5,11 +5,13 @@ import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.io.Serializable;
+
 
 @Document(collection = "hjd")
 @ToString(exclude = "_id")
 @Getter
-public class AdministrativeDong {
+public class AdministrativeDong implements Serializable {
 
     @MongoId
     private String _id;
