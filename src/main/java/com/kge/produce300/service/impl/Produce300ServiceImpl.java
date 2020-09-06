@@ -59,13 +59,11 @@ public class Produce300ServiceImpl implements Produce300Service {
         return result;
     }
 
-    @Override
-    public List<AdministrativeDong> retrieveAdministrativeDongs(String electionCode) throws Exception {
+    private List<AdministrativeDong> retrieveAdministrativeDongs(String electionCode) throws Exception {
         return ADMIN_DONG_REPO.findByPropertiesElectionCode(electionCode);
     }
 
-    @Override
-    public List<Elected> retrieveElectedResult(String electionCode) throws Exception {
+    private List<Elected> retrieveElectedResult(String electionCode) throws Exception {
         return ELECTED_REPO.findByElectionCode(electionCode);
     }
 

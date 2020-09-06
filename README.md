@@ -6,3 +6,4 @@
 - Java : 14
 - Gradle
 - DB : Mongo DB
+- lombok
