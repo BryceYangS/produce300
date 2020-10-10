@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,15 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service("produce300Service")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class Produce300ServiceImpl implements Produce300Service {
 
-    private final AdministrativeDongRepository ADMIN_DONG_REPO;
-    private final ElectedRepository ELECTED_REPO;
-    private final CandidateRepository CANDIDATE_REPO;
+    @Autowired
+    private AdministrativeDongRepository ADMIN_DONG_REPO;
+    @Autowired
+    private ElectedRepository ELECTED_REPO;
+    @Autowired
+    private CandidateRepository CANDIDATE_REPO;
 
     @Cacheable(value ="base-data", key = "'data'")
     @Override
@@ -96,7 +100,7 @@ public class Produce300ServiceImpl implements Produce300Service {
             String voteRate = voteRateColumns.get(i + 4).childNode(2).toString().replaceAll("[\\(\\)]", "");
             String openVoteRate = voteRateColumns.get(voteRateColumns.size() - 1).childNode(0).toString();
 
-            CandidateDTO cnadidateDto = CandidateDTO.builder()
+            CandidateDTO cnadidateDto = new CandidateDTO.Builder()
                     .age(candidates.get(i).getAge())
                     .name(candidates.get(i).getName())
                     .party(candidates.get(i).getParty())
@@ -113,4 +117,35 @@ public class Produce300ServiceImpl implements Produce300Service {
 
         return candidatesWithVoteRate;
     }
+
+    @Override
+    public List<CandidateDTO> getAllCandidateData() throws Exception {
+
+        List<Candidate> candidates = CANDIDATE_REPO.findAll();
+
+        List<CandidateDTO> candidateDtos = candidates.stream()
+                .map(candidate -> {
+                    CandidateDTO candidateDTO = new CandidateDTO.Builder()
+                            .sido(candidate.getSido())
+                            .name(candidate.getName())
+                            .sggCode(candidate.getSggCode())
+                            .sggName(candidate.getSggName())
+                            .build();
+                    return candidateDTO;
+                }).collect(Collectors.toList());
+//        System.out.println(candidateDtos.get(0));
+
+        return candidateDtos;
+    }
+
+    @Override
+    public String getStns(Map<String, Object> param) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getVoteRate() throws Exception {
+        return null;
+    }
+
 }

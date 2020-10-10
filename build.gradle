@@ -42,11 +42,15 @@ dependencies {
 	// Jsoup (HTML parser)
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.12.2'
 
+	// JWT(Json Web Token)
+	implementation 'com.auth0:java-jwt:3.10.3'
 
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	testCompile group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
+
 }
 
 test {

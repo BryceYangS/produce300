@@ -10,4 +10,8 @@ public interface CandidateRepository extends MongoRepository<Candidate, String> 
     @Query(value="{ 'sggCode' : ?0 }", fields="{ 'sggCode' : 0, '_id' : 0 }", sort = "{'_id': 1}")
     public List<Candidate> findBySggCode(String sggCode);
 
+//    @Override
+//    @Query(fields = "{'sido': 1, 'name': 1, 'sggCode': 1, 'sggName': 1}")
+//    public List<Candidate> findAll();
+
 }

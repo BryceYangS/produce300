@@ -4,14 +4,18 @@ import com.google.gson.JsonObject;
 import com.kge.produce300.domain.dto.CandidateDTO;
 import com.kge.produce300.service.Produce300Service;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,26 +44,30 @@ public class Produce300Controller {
     }
 
     @ApiOperation(value = "후보자 이미지", httpMethod = "GET", notes = "선관위 이미지 stream 변환")
-    @GetMapping("/api/candidateImg")
-    public ResponseEntity<Object> convertCandidateImg(@RequestParam String url) {
+    @GetMapping( value = "/api/candidateImg", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] convertCandidateImg(@RequestParam String url) throws IOException {
         JsonObject result = new JsonObject();
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        URL urlObject = new URL(url);
+        return IOUtils.toByteArray(urlObject.openStream());
     }
 
+
+    // TO-DO
     @ApiOperation(value = "후보자 전체 데이터", httpMethod = "GET", notes = "후보자 전체 데이터")
     @GetMapping("/api/allCandidate")
-    public ResponseEntity<Object> getAllCandidateData() {
-        JsonObject result = new JsonObject();
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<Object> getAllCandidateData() throws Exception{
+        return new ResponseEntity<>(produce300Service.getAllCandidateData(), HttpStatus.OK);
     }
 
+    // TO-DO
     @ApiOperation(value = "투표소 목록", httpMethod = "GET", notes = "투표소 목록")
     @GetMapping("/api/stns")
-    public ResponseEntity<Object> getStns(@RequestBody Map<String, Object> param) {
+    public ResponseEntity<Object> getStns(@RequestBody Map<String, Object> param) throws Exception {
         JsonObject result = new JsonObject();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // TO-DO
     @ApiOperation(value = "투표율", httpMethod = "GET", notes = "투표율")
     @GetMapping("/api/voteRate")
     public ResponseEntity<Object> getVoteRate() {
