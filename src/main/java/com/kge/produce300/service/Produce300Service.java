@@ -95,7 +95,7 @@ public class Produce300Service {
             String voteRate = voteRateColumns.get(i + 4).childNode(2).toString().replaceAll("[\\(\\)]", "");
             String openVoteRate = voteRateColumns.get(voteRateColumns.size() - 1).childNode(0).toString();
 
-            CandidateDTO cnadidateDto = new CandidateDTO.builder()
+            CandidateDTO cnadidateDto = CandidateDTO.builder()
                     .age(candidates.get(i).getAge())
                     .name(candidates.get(i).getName())
                     .party(candidates.get(i).getParty())
@@ -119,7 +119,7 @@ public class Produce300Service {
 
         List<CandidateDTO> candidateDtos = candidates.stream()
                 .map(candidate -> {
-                    CandidateDTO candidateDTO = new CandidateDTO.CandidateDTOBuilder()
+                    CandidateDTO candidateDTO = CandidateDTO.builder()
                             .sido(candidate.getSido())
                             .name(candidate.getName())
                             .sggCode(candidate.getSggCode())
