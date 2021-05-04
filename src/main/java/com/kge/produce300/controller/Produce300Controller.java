@@ -3,29 +3,28 @@ package com.kge.produce300.controller;
 import com.google.gson.JsonObject;
 import com.kge.produce300.domain.dto.CandidateDTO;
 import com.kge.produce300.service.Produce300Service;
+
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+
 import org.apache.commons.io.IOUtils;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class Produce300Controller {
 
-    @Resource(name = "produce300Service")
-    private Produce300Service produce300Service;
-
+    private final Produce300Service produce300Service;
 
     @ApiOperation(value = "기본 데이터", httpMethod = "GET", notes = "행정동,당선인 데이터")
     @GetMapping("/api/data")

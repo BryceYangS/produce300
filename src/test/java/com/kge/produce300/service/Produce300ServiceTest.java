@@ -1,7 +1,7 @@
-package com.kge.produce300.service.impl;
+package com.kge.produce300.service;
 
 import com.kge.produce300.domain.dto.CandidateDTO;
-import com.kge.produce300.service.Produce300Service;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class Produce300ServiceImplTest {
+class Produce300ServiceTest {
 
 
     @Autowired
