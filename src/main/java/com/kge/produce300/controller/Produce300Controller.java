@@ -6,8 +6,10 @@ import com.kge.produce300.service.Produce300Service;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class Produce300Controller {
@@ -29,7 +33,11 @@ public class Produce300Controller {
     @ApiOperation(value = "기본 데이터", httpMethod = "GET", notes = "행정동,당선인 데이터")
     @GetMapping("/api/data")
     public ResponseEntity<Object> getData() throws Exception {
-        return new ResponseEntity<>(produce300Service.retrieveBaseData(), HttpStatus.OK);
+        log.debug("기본 데이터 Controller 시작");
+        CacheControl cacheControl = CacheControl.maxAge(9999, TimeUnit.SECONDS);
+        return ResponseEntity.ok()
+            .cacheControl(cacheControl)
+            .body(produce300Service.retrieveBaseData());
     }
 
 
