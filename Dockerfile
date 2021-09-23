@@ -18,7 +18,7 @@
 ## Run the jar file
 #ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/to-do-springboot.jar"]
 
-FROM openjdk:14-jdk
+FROM openjdk:8-jdk
 # 어떤 이미지로부터 새로운 이미지를 생성할 지 지정. 플랫폼 : 버전 형태로 작성
 
 MAINTAINER bryce <nash31@korea.ac.kr>
